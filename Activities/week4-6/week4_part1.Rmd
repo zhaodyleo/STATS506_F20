@@ -8,6 +8,9 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+```{r}
+library(tidyverse)
+```
 
 ### Part 1 (dplyr)
 
@@ -28,14 +31,18 @@ You can read more at `?Orange`.
 observations per tree.
 
 ```{r q1}
-
+Orange %>% count(Tree)
 ```
 
 2. Write a dplyr pipe to change the units of age to "years" 
 and circumference to "cm".
 
 ```{r q2}
-
+Orange_y_cm = Orange %>%
+                transmute(
+                  Tree = Tree,
+                  age = age/365,
+                  circumference = circumference/1000)
 ```
 
  
@@ -43,7 +50,8 @@ and circumference to "cm".
 z-score to each tree, centered around the mean for all trees at a given age.
 
 ```{r q3}
-
+Orange_y_cm %>%
+  mutate(z_score=z_score1(age))
 ```
 
  
@@ -52,7 +60,12 @@ z-score to each tree, centered around the mean for all trees at a given age.
 the final measured age for each tree.
 
 ```{r q4}
-
+Orange_y_cm %>% 
+  group_by(Tree) %>%
+  transmute(
+    average_rate = max(circumference)/max(age)
+  ) %>% 
+  unique()
 ```
 
 5. Describe the result of the following pipe in 1-3 sentences. Your
@@ -75,3 +88,4 @@ the final measured age for each tree.
 
 **Description:**
 
+This code computes the average rate of growth across different trees in the same age.
