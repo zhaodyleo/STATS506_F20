@@ -1,0 +1,53 @@
+---
+title: "Untitled"
+author: "Dongyang (Leo) Zhao"
+date: "10/13/2020"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r,message = FALSE}
+library(readr)
+library(tidyverse)
+```
+
+
+```{r,message = FALSE}
+Demo = read_csv("C:/Users/leozd/OneDrive - The Ohio State University/Desktop/FALL 2020/GitHub_Folder/STATS506_F20/Activities/week4-6/Week6/nhanes_demo.csv")
+ohxden = read_csv("C:/Users/leozd/OneDrive - The Ohio State University/Desktop/FALL 2020/GitHub_Folder/STATS506_F20/Activities/week4-6/Week6/nhanes_ohxden.csv")
+```
+
+```{r}
+Demo_update = inner_join(Demo,ohxden[,c("SEQN","OHDDESTS")],by = "SEQN")
+
+
+Demo_clean = 
+Demo_update %>% 
+  select(SEQN,RIAGENDR,RIDAGEYR,DMDEDUC2,RIDSTATR,OHDDESTS) %>% 
+  transmute(SEQN,
+            Gender = ifelse(RIAGENDR == ".",
+                         "Missing",
+                         ifelse(RIAGENDR == "1","Male","Female")),
+            Age = RIDAGEYR,
+            under_20 = as.numeric(Age < 20),
+            college = ifelse(DMDEDUC2 %in% c(4,5),
+                            "some college/college graduate",
+                            "No college/<20"),
+            Exam_status = RIDSTATR,
+            ohx_status = OHDDESTS)
+
+Demo_clean_update = 
+Demo_clean %>% 
+  mutate(ohx = ifelse(Exam_status == 2 && ohx_status == 1,
+                      "complete",
+                      "missing"))
+
+Demo_final = 
+  Demo_clean_update %>%
+  filter(Exam_status != 2)
+```
+
+
