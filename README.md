@@ -28,6 +28,18 @@ My group members' github pages:
 
 - In week 3, we created the github page and updated the infomation about the group activities. 
 
-#### Week 4 
+## Midterm Group Project 
 
+I worked with the following group members on this midterm project. 
+
+The requirement is on this pages: 
+
+[Midterm Project](jbhender.github.io/Stats506/F20/GroupProject.html)
+
+- [Lehao25](http://github.com/Lehao25/Stats506_public) 
+- [Moeki Kurita](http://github.com/mk-repos/Stats506_public)
+
+The group project repo's link: 
+
+- [Midterm_Project](github.com/mk-repos/Stats506_group4)
 
